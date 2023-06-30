@@ -1,43 +1,36 @@
 #include "main.h"
 
 /**
- * _printf - Custom printf function
- * @format: The format string
- * @...: Variable number of arguments
+ * _printf - Prints formatted output to stdout	
+ * @format: Format string
  *
  * Return: The number of characters printed
  */
 int _printf(const char *format, ...)
 {
 	va_list args;
+	char *s;
+	int n = 0;
+	int chars_printed = 0;
 
 	va_start(args, format);
-
-	char buffer[BUFFER_SIZE];
-	int count = 0; /* Counter for the number of characters printed */
-
+	if (format == NULL)
+		return (0);
 	while (*format != '\0')
 	{
 		if (*format == '%')
 		{
-			format++; /* Move past the '%' */
-			count += handle_conversion_specifier(format, args, buffer);
+			format++;
+			chars_printed += check_format(*format, args);
 		}
 		else
 		{
-			if (count < BUFFER_SIZE - 1)
-				buffer[count++] = *format;
-			else
-				write_buffer(buffer, &count);
+			_putchar(*format);
+			chars_printed++;
 		}
-
-		format++; /* Move to the next character in the format string */
+		format++;
 	}
-
-	/* Write any remaining characters in the buffer */
-	write_buffer(buffer, &count);
-
 	va_end(args);
-	return (count);
+	return (chars_printed);
 }
 

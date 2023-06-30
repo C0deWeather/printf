@@ -1,48 +1,40 @@
 #include "main.h"
 
 /**
- * handle_conversion_specifier - Handles the conversion specifier
- * @specifier: The conversion specifier
- * @args: The variable argument list
- * @buffer: The buffer to store the characters
+ * check_format - checks format specifier
+ * @c: format specifier
+ * @ap: va_list variable
  *
- * Return: The number of characters printed for the
- * conversion specifier
+ * Return: returns number of char printed
  */
-int handle_conversion_specifier(const char *specifier,
-		va_list args, char *buffer)
+int check_format(char c, va_list ap)
 {
-	switch (*specifier)
+	int chars_printed = 0;
+	char *s = NULL;
+
+	switch (c)
 	{
 		case 'c':
-			if (*buffer < BUFFER_SIZE - 1)
-				buffer[(*buffer)++] = va_arg(args, int);
-			else
-				write_buffer(buffer, buffer);
-			return (1);
+			chars_printed += _putchar(va_arg(ap, int));
+			break;
 		case 's':
-			return (print_string(va_arg(args, const char*), buffer));
-		case 'd':
-		case 'i':
-			return (print_integer(va_arg(args, int), buffer));
-		case 'u':
-			return (print_unsign(va_arg(args, unsigned int), buffer));
-		case 'o':
-			return (print_octal(va_arg(args, unsigned int), buffer));
-		case 'x':
-			return (print_hex(va_arg(args, unsigned int), 0, buffer));
-		case 'X':
-			return (print_hex(va_arg(args, unsigned int), 1, buffer));
-		case 'S':
-			return (print_string_special(va_arg(args, const char*), buffer));
+			s = va_arg(ap, char *);
+			chars_printed += _puts(s);
+			break;
 		case '%':
-			if (*buffer < BUFFER_SIZE - 1)
-				buffer[(*buffer)++] = '%';
-			else
-				write_buffer(buffer, buffer);
-			return (1);
+			chars_printed += _putchar('%');
+			break;
+		case 'i':
+		case 'd':
+			chars_printed += print_num(va_arg(ap, int));
+			break;
 		default:
-			return (0);
+			_putchar('%');
+			_putchar(c);
+			chars_printed += 2;
+			break;
 	}
+	va_end(ap);
+	return (chars_printed);
 }
 
