@@ -46,7 +46,9 @@ int print_num(int n)
 int _puts(char *str)
 {
 	int len = 0;
-
+	
+	if (str == NULL)
+		exit(-1);
 	while (str[len] != '\0')
 	{
 		_putchar(str[len]);

@@ -16,7 +16,7 @@ int _printf(const char *format, ...)
 		return (0);
 	while (*format != '\0')
 	{
-		if (*format == '%')
+		if (*format == '%' && *(format +1) != '\0')
 		{
 			format++;
 			chars_printed += check_format(*format, args);
