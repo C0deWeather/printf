@@ -9,8 +9,6 @@
 int _printf(const char *format, ...)
 {
 	va_list args;
-	char *s;
-	int n = 0;
 	int chars_printed = 0;
 
 	va_start(args, format);
